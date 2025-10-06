@@ -17,8 +17,8 @@ public class Calculo {
 
     public static void main(String[] args) {
         Calculo calc = new Calculo();
-        calc.a = 10;
-        calc.b = 2;
+        calc.a = 5;
+        calc.b = 0;
         calc.calcularDivisao();
     }
 }
