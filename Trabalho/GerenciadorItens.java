@@ -5,7 +5,6 @@ import java.util.Map;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
 public class GerenciadorItens {
     private List<Item> itens = new ArrayList<>();
