@@ -1,4 +1,5 @@
 package Trabalho;
+
 import java.time.LocalDate;
 public class Filme extends Item {
     private String diretor;
@@ -40,7 +41,7 @@ public class Filme extends Item {
     }
     @Override
     public String exibirDetalhes() {
-        return "Filme: " + getTitulo() + "\nDescrição: " + getDescricao() + "\nData de Cadastro: " + getDataCadastro() +
+        return "\nFilme: " + getTitulo() + "\nDescrição: " + getDescricao() + "\nData de Cadastro: " + getDataCadastro() +
                "\nDiretor: " + diretor + "\nDuração (minutos): " + duracaoMinutos;
     }
     public static void main(String[] args) {
