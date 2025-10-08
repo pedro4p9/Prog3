@@ -3,6 +3,7 @@ import java.io.PrintStream;
 import java.util.Scanner;
 public class Leitura {
     public static void main(String[] args) {
+        System.out.println("Digite linhas de texto (digite 'FIM' para encerrar):");
         Scanner scanner = new Scanner(System.in);
 
         try(PrintStream arquivo = new PrintStream("aula7/saida.txt")){
