@@ -45,16 +45,26 @@ public class Livro extends Item {
         return "Livro: " + getTitulo() + "\nDescrição: " + getDescricao() + "\nData de Cadastro: " + getDataCadastro() +
                "\nAutor: " + autor + "\nNúmero de Páginas: " + numeroPaginas;
     }
+    @Override
+    public String exportar() {
+        return String.join(",", "Livro", getTitulo(), getAutor(), getDescricao(), getDataCadastro().toString(), String.valueOf(getNumeroPaginas()));
+    }
 
-    public static void main(String[] args) {
+    public static Livro reconstruirDeString(String linha) {
         try {
-            Livro livro = new Livro("1984", "Dystopian novel", LocalDate.of(2021, 5, 20), "George Orwell", 328);
-            System.out.println(livro.exibirDetalhes());
-
-            Livro livroInvalido = new Livro("Teste", "Descrição", LocalDate.now(), "", -10);
-            System.out.println(livroInvalido.exibirDetalhes());
+            String[] partes = linha.split(",");
+            if (partes.length == 6 && partes[0].equalsIgnoreCase("Livro")) {
+                return new Livro(
+                    partes[1], // título
+                    partes[3], // descrição
+                    LocalDate.parse(partes[4]), // data
+                    partes[2], // autor
+                    Integer.parseInt(partes[5]) // páginas
+                );
+            }
         } catch (Exception e) {
-            System.out.println("Erro no main: " + e.getMessage());
+            System.out.println("Erro ao reconstruir Livro: " + e.getMessage());
         }
+        return null;
     }
 }

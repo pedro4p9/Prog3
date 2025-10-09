@@ -44,15 +44,27 @@ public class Filme extends Item {
         return "\nFilme: " + getTitulo() + "\nDescrição: " + getDescricao() + "\nData de Cadastro: " + getDataCadastro() +
                "\nDiretor: " + diretor + "\nDuração (minutos): " + duracaoMinutos;
     }
-    public static void main(String[] args) {
-        try {
-            Filme filme = new Filme("Inception", "Sci-fi thriller", LocalDate.of(2020, 8, 15), "Christopher Nolan", 148);
-            System.out.println(filme.exibirDetalhes());
-
-            Filme filmeInvalido = new Filme("Teste", "Descrição", LocalDate.now(), "", -120);
-            System.out.println(filmeInvalido.exibirDetalhes());
-        } catch (Exception e) {
-            System.out.println("Erro no main: " + e.getMessage());
-        }
+    @Override
+    public String exportar() {
+        return String.join(",", "Filme", getTitulo(), getDiretor(), getDescricao(), getDataCadastro().toString(), String.valueOf(getDuracaoMinutos()));
     }
+
+    public static Filme reconstruirDeString(String linha) {
+        try {
+            String[] partes = linha.split(",");
+            if (partes.length == 6 && partes[0].equalsIgnoreCase("Filme")) {
+                return new Filme(
+                    partes[1], // título
+                    partes[3], // descrição
+                    LocalDate.parse(partes[4]), // data
+                    partes[2], // diretor
+                    Integer.parseInt(partes[5]) // duração
+                );
+            }
+        } catch (Exception e) {
+            System.out.println("Erro ao reconstruir Filme: " + e.getMessage());
+        }
+        return null;
+    }
+
 }

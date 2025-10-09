@@ -6,6 +6,13 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.stream.Collectors;
+import java.io.FileWriter;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.time.LocalDate;
+import java.io.FileInputStream;
 public class GerenciadorItens {
     private List<Item> itens = new ArrayList<>();
 
@@ -59,36 +66,58 @@ public class GerenciadorItens {
         return itens.stream()
                 .collect(Collectors.groupingBy(item -> item.getClass().getSimpleName(), Collectors.counting()));
     }
-    public static void main(String[] args) {
-        GerenciadorItens gerenciador = new GerenciadorItens();
-        try {
-            Filme filme1 = new Filme("Inception", "Sci-fi thriller", java.time.LocalDate.of(2020, 8, 15), "Christopher Nolan", 148);
-            Filme filme2 = new Filme("The Matrix", "Sci-fi action", java.time.LocalDate.of(1999, 3, 31), "The Wachowskis", 136);
-            Livro livro1 = new Livro("1984", "Dystopian novel", java.time.LocalDate.of(1949, 6, 8), "George Orwell", 328);
-            Livro livro2 = new Livro("Brave New World", "Dystopian novel", java.time.LocalDate.of(1932, 1, 1), "Aldous Huxley", 311);
-
-            gerenciador.adicionarItem(filme1);
-            gerenciador.adicionarItem(filme2);
-            gerenciador.adicionarItem(livro1);
-            gerenciador.adicionarItem(livro2);
-
-            System.out.println("Todos os itens:");
-            for (Item item : gerenciador.listarTodos()) {
-                System.out.println(item.exibirDetalhes());
-                System.out.println();
+    void exportarParaArquivo(String caminho){
+        try (FileWriter writer = new FileWriter(caminho)) {
+            for (Item item : itens) {
+                writer.write(item.exportar() + "\n");
             }
-
-            System.out.println("Buscar por título '1984':");
-            for (Item item : gerenciador.buscarPorTitulo("1984")) {
-                System.out.println(item.exibirDetalhes());
-                System.out.println();
+            System.out.println("Itens exportados com sucesso para: " + caminho);
+        } catch (IOException e) {
+            System.out.println("Erro ao exportar para o arquivo: " + e.getMessage());
+        }
+    }
+    void importarDeArquivo(String caminho) {
+        try (BufferedReader reader = new BufferedReader(new FileReader(caminho))) {
+            String linha;
+            while ((linha = reader.readLine()) != null) {
+                try {
+                    // Processar formato com parênteses
+                    if (linha.startsWith("Livro,") || linha.startsWith("Filme,")) {
+                        // Remover parênteses se existirem
+                        linha = linha.replace("(", ",").replace(")", "");
+                        
+                        String[] partes = linha.split(",");
+                        if (partes.length == 6) {
+                            if (partes[0].equalsIgnoreCase("Livro")) {
+                                Livro livro = new Livro(
+                                    partes[1], // título
+                                    partes[3], // descrição
+                                    LocalDate.parse(partes[4]), // data
+                                    partes[2], // autor
+                                    Integer.parseInt(partes[5]) // páginas
+                                );
+                                adicionarItem(livro);
+                            } else if (partes[0].equalsIgnoreCase("Filme")) {
+                                Filme filme = new Filme(
+                                    partes[1], // título
+                                    partes[3], // descrição
+                                    LocalDate.parse(partes[4]), // data
+                                    partes[2], // diretor
+                                    Integer.parseInt(partes[5]) // duração
+                                );
+                                adicionarItem(filme);
+                            }
+                        }
+                    } else {
+                        System.out.println("Linha com formato desconhecido: " + linha);
+                    }
+                } catch (Exception e) {
+                    System.out.println("Erro ao processar linha: " + linha + ". Detalhes: " + e.getMessage());
+                }
             }
-
-            System.out.println("Contagem por tipo:");
-            Map<String, Long> contagem = gerenciador.contarPorTipo();
-            contagem.forEach((tipo, quantidade) -> System.out.println(tipo + ": " + quantidade));
-        } catch (Exception e) {
-            System.out.println("Erro no main: " + e.getMessage());
+            System.out.println("Itens importados com sucesso de: " + caminho);
+        } catch (IOException e) {
+            System.out.println("Erro ao importar do arquivo: " + e.getMessage());
         }
     }
 }

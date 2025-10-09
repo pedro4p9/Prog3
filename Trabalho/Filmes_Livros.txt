@@ -1,0 +1,2 @@
+Livro,1984(George Orwell,Distopia clássica,2020-01-15,328)
+Filme,Inception(Christopher Nolan,Ficção científica,2021-05-20,148)

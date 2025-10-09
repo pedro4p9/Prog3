@@ -2,7 +2,7 @@ package Trabalho;
 
 import java.time.LocalDate;
 
-public abstract class Item {
+public abstract class Item implements Exportavel {
     private String titulo;
     private String descricao;
     private LocalDate dataCadastro;
@@ -70,5 +70,8 @@ public abstract class Item {
         }
     }
     public abstract String exibirDetalhes();
-
+    @Override
+    public String toString() {
+        return "Título: " + titulo + ", Descrição: " + descricao + ", Data de Cadastro: " + dataCadastro;
+    }
 }
