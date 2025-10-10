@@ -26,7 +26,7 @@ public class JanelaPrincipal extends JFrame {
     // Cor exclusiva do aluno #80ae84
     private final Color COR_EXCLUSIVA = new Color(128, 174, 132); // #80ae84
     private final Color COR_BOTAO = new Color(128, 174, 132); // #80ae84
-    private final Color COR_DESTAQUE = new Color(108, 154, 112); // Versão mais escura
+    private final Color COR_DESTAQUE = new Color(128, 174, 122); // #80ae84
     
     public JanelaPrincipal() {
         gerenciador = new GerenciadorItens();
