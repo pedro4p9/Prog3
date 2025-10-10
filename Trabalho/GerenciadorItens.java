@@ -10,9 +10,7 @@ import java.io.FileWriter;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-import java.io.InputStream;
 import java.time.LocalDate;
-import java.io.FileInputStream;
 public class GerenciadorItens {
     private List<Item> itens = new ArrayList<>();
 
