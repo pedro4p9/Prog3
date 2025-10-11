@@ -1,4 +1,3 @@
-
 package Trabalho;
 
 import javax.swing.*;
@@ -24,9 +23,9 @@ public class JanelaPrincipal extends JFrame {
     private JPanel painelEspecifico;
     
     // Cor exclusiva do aluno #80ae84
-    private final Color COR_EXCLUSIVA = new Color(128, 174, 132); // #80ae84
-    private final Color COR_BOTAO = new Color(128, 174, 132); // #80ae84
-    private final Color COR_DESTAQUE = new Color(128, 174, 122); // #80ae84
+    private final Color COR_EXCLUSIVA = Color.decode("#80ae84");
+    private final Color COR_BOTAO = Color.decode("#80ae84");
+    private final Color COR_DESTAQUE = Color.decode("#80ae84");
     
     public JanelaPrincipal() {
         gerenciador = new GerenciadorItens();
